@@ -33,6 +33,7 @@ function MaffinLoader.CreateDownloadEntry(imagePath, parent, fileInfo) -- fileIn
     end
     panel.middleSection = vgui.Create("Panel", panel)
     panel.middleSection:Dock(FILL)
+    panel.middleSection:DockMargin(0,0,0,5)
 
     panel.label = vgui.Create("DLabel", panel.middleSection)
     panel.label:SetText(fileInfo.title)

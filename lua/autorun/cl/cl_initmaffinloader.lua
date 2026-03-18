@@ -1,4 +1,5 @@
 MaffinLoader.WorkshopIDs = MaffinLoader.WorkshopIDs or {}
+MaffinLoader.LoadingFinished = false
 
 function MaffinLoader.StartDownloads()
     local downloadCount = 0
@@ -12,6 +13,8 @@ function MaffinLoader.StartDownloads()
                 print("[MaffinLoader] Failed to download addon from Workshop ID: " .. download.id)
             end
         end
+        MaffinLoader.LoadingFinished = true
+        if MaffinLoader.Settings.CloseOnFinish then ToggleMaffinLoaderDownloadsMainHUD() end
     end
 
     for _, id in ipairs(MaffinLoader.WorkshopIDs) do
@@ -37,5 +40,5 @@ net.Receive("MaffinLoader_SendWorkshopIDs", function()
     MaffinLoader.StartDownloads()
     
     CreateMaffinLoaderDownloadsMainHUD()
-    OpenMaffinLoaderDownloadsMainHUD()
+    ToggleMaffinLoaderDownloadsMainHUD()
 end)

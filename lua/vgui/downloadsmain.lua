@@ -1,6 +1,6 @@
 local PANEL = PANEL or {}
 local MaffinLoaderDownloadsMainHUDisActive = false
-local MaffinLoaderDownloadsMainHUD = MaffinLoaderDownloadsMainHUD or {}
+MaffinLoaderDownloadsMainHUD = MaffinLoaderDownloadsMainHUD or {}
 local createEntriesCoroutine = createEntriesCoroutine or {}
 local mainPanelExtended = true
 vgui.Register("MaffinLoaderDownloadsMainHUD", PANEL, "EditablePanel")
@@ -9,6 +9,7 @@ local buildQueue = {}
 local function EnqueueEntry(fn)
     table.insert(buildQueue, fn)
 end
+
 function PANEL:Init()    
     self:SetSize(ScrW() * 0.19, ScrH() * 0.2)
     self:SetPos(ScrW() * 0.8, ScrH() * 0.2)
@@ -44,7 +45,7 @@ function PANEL:Init()
     self.Title:Dock(FILL)
     self.Title:SetText("")
     self.Title.Paint = function(s, w, h)
-            draw.SimpleText(MaffinLoader.Lang[MaffinLoader.Settings.Language].TitleText, "DermaDefault", 0, 0, color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+        draw.SimpleText(MaffinLoader.Lang[MaffinLoader.Settings.Language].TitleText, "DermaDefault", 0, 0, color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
     end
 
     self.ScrollPanel = vgui.Create("DScrollPanel", self)
@@ -58,10 +59,17 @@ function PANEL:Init()
     self.FAQButton = vgui.Create("DButton", self.footer)
     self.FAQButton:SetText("FAQ")
     self.FAQButton:Dock(LEFT)
+    self.FAQButton.DoClick = function()
+        self.FAQPanel = ToggleMaffinLoaderFAQPanel()
+    end
 
     self.SettingsButton = vgui.Create("DButton", self.footer)
-    self.SettingsButton:SetText("Settings")
+    self.SettingsButton:SetText(MaffinLoader.Lang[MaffinLoader.Settings.Language].SettingsText)
     self.SettingsButton:Dock(RIGHT)
+    self.SettingsButton.DoClick = function()
+        self.SettingsPanel = ToggleMaffinLoaderSettingsPanel()
+    end
+    self.SettingsButton:SetVisible(false)
 
     createEntriesCoroutine = coroutine.create(function()        
         for _, workshopId in ipairs(MaffinLoader.WorkshopIDs) do
@@ -127,5 +135,7 @@ function ToggleMaffinLoaderDownloadsMainHUD()
     if IsValid(MaffinLoaderDownloadsMainHUD) then
         MaffinLoaderDownloadsMainHUD:SetVisible(MaffinLoaderDownloadsMainHUDisActive)
         MaffinLoaderDownloadsMainHUD.CloseButton:SetVisible(MaffinLoaderDownloadsMainHUDisActive)
+        if MaffinLoaderDownloadsMainHUD.FAQPanel then MaffinLoaderDownloadsMainHUD.FAQPanel:SetVisible(MaffinLoaderDownloadsMainHUDisActive) end
+        if MaffinLoaderDownloadsMainHUD.SettingsPanel then MaffinLoaderDownloadsMainHUD.SettingsPanel:SetVisible(MaffinLoaderDownloadsMainHUDisActive) end
     end
 end

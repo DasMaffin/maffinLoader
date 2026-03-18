@@ -20,7 +20,7 @@ local WORKSHOP_IDS = util.JSONToTable(raw) or {}
 util.AddNetworkString("MaffinLoader_SendWorkshopIDs")
 
 hook.Add("PlayerInitialSpawn", "MaffinLoader_SendWorkshopIDs", function(ply)
-    timer.Simple(20, function()    
+    timer.Simple(10, function()    
         net.Start("MaffinLoader_SendWorkshopIDs")
             net.WriteTable(WORKSHOP_IDS)
         net.Send(ply)

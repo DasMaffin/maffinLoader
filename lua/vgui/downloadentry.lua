@@ -12,9 +12,9 @@ end
 function MaffinLoader.CreateDownloadEntry(imagePath, parent, fileInfo) -- fileInfo: https://gmodwiki.com/steamworks.FileInfo
     local panel = parent:Add("MaffinLoaderDownloadEntryHUD")
     local isSubscribed = steamworks.IsSubscribed(fileInfo.fileid)
-    local text = "Subscribe"
+    local text = MaffinLoader.Lang[MaffinLoader.Settings.Language].SubscribeText
     if isSubscribed then        
-        text = "Already Subscribed"
+        text = MaffinLoader.Lang[MaffinLoader.Settings.Language].SubscribedText
         panel:SetVisible(not MaffinLoader.Settings.HideSubscribedItems)
         local size = MaffinLoader.Settings.HideSubscribedItems and 0 or 64
         panel:SetTall(size)
